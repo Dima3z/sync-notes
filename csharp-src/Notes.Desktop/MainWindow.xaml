@@ -1,0 +1,54 @@
+﻿<Window x:Class="Notes.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notes.Desktop"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <DockPanel LastChildFill="True">
+        <Grid DockPanel.Dock="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" BorderBrush="White">
+                    <Button.Background>
+                        <ImageBrush ImageSource="117199341543238913-128.png" AlignmentX="Center" AlignmentY="Center">
+                            <ImageBrush.Transform>
+                                <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
+                            </ImageBrush.Transform>
+                        </ImageBrush>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="1" BorderBrush="White">
+                    <Button.Background>
+                        <ImageBrush ImageSource="12040721761543238917-128.png" AlignmentX="Center" AlignmentY="Center">
+                            <ImageBrush.Transform>
+                                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                            </ImageBrush.Transform>
+                        </ImageBrush>
+                    </Button.Background>
+                </Button>
+                <Button Grid.Column="2" BorderBrush="White">
+                    <Button.Background>
+                        <ImageBrush ImageSource="18635412531543238915-128.png" AlignmentX="Center" AlignmentY="Center">
+                            <ImageBrush.Transform>
+                                <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
+                            </ImageBrush.Transform>
+                        </ImageBrush>
+                    </Button.Background>
+                </Button>
+            </Grid>
+            <TreeView Grid.Row="1">Notes</TreeView>
+        </Grid>
+        <Label DockPanel.Dock="Top" Height="30">Title</Label>
+        <RichTextBox></RichTextBox>
+    </DockPanel>
+</Window>

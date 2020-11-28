@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Core", "Notes.Core\Notes.Core.csproj", "{FFF701EB-C24A-4505-9370-F1EE6C7C9206}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Desktop", "Notes.Desktop\Notes.Desktop.csproj", "{787B85CC-0BFE-4BB3-9452-60FF2EBFA189}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{FFF701EB-C24A-4505-9370-F1EE6C7C9206}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFF701EB-C24A-4505-9370-F1EE6C7C9206}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFF701EB-C24A-4505-9370-F1EE6C7C9206}.Release|Any CPU.Build.0 = Release|Any CPU
+		{787B85CC-0BFE-4BB3-9452-60FF2EBFA189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{787B85CC-0BFE-4BB3-9452-60FF2EBFA189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{787B85CC-0BFE-4BB3-9452-60FF2EBFA189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{787B85CC-0BFE-4BB3-9452-60FF2EBFA189}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

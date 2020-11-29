@@ -5,6 +5,7 @@ using System.Linq;
 using EnsureThat;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Notes.Core.Interfaces;
 using Notes.Core.Models;
 
 namespace Notes.Core.Persistence
@@ -17,7 +18,7 @@ namespace Notes.Core.Persistence
         }
         public string DirectoryPath { get; private set; }
 
-        public void SaveNotes(IEnumerable<Note> notes)
+        public void SaveNotes(IEnumerable<INote> notes)
         {
             foreach (var note in notes)
             {
@@ -26,7 +27,7 @@ namespace Notes.Core.Persistence
             }
         }
 
-        public IEnumerable<Note> LoadNotes()
+        public IEnumerable<INote> LoadNotes()
         {
             var files = Directory.GetFiles(DirectoryPath);
             var result = new List<Note>();

@@ -7,15 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Update="117199341543238913-128.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="12040721761543238917-128.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="18635412531543238915-128.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+      <ProjectReference Include="..\Notes.Core\Notes.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="res\117199341543238913-128.png" />
+      <Resource Include="res\12040721761543238917-128.png" />
+      <Resource Include="res\18635412531543238915-128.png" />
     </ItemGroup>
 
 </Project>

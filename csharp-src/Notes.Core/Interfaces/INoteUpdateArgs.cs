@@ -1,10 +1,10 @@
 using System;
-using Notes.Core.Interfaces;
 
-namespace Notes.Core.Models
+namespace Notes.Core.Interfaces
 {
-    public class NoteCreateArgs : INoteCreateArgs
+    public interface INoteUpdateArgs
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
     }

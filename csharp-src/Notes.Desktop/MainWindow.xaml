@@ -3,42 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Notes.Desktop"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel LastChildFill="True">
         <Grid DockPanel.Dock="Left">
             <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="30"/>
-                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" BorderBrush="White">
+                <Button x:Name="AddButton" Click="AddButton_OnClick" Grid.Column="0" BorderBrush="White">
                     <Button.Background>
-                        <ImageBrush ImageSource="117199341543238913-128.png" AlignmentX="Center" AlignmentY="Center">
+                        <ImageBrush ImageSource="res\117199341543238913-128.png" AlignmentX="Center" AlignmentY="Center">
                             <ImageBrush.Transform>
                                 <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
                             </ImageBrush.Transform>
                         </ImageBrush>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="1" BorderBrush="White">
+                <Button x:Name="SettingsButton" Click="SettingsButton_OnClick" Grid.Column="1" BorderBrush="White">
                     <Button.Background>
-                        <ImageBrush ImageSource="12040721761543238917-128.png" AlignmentX="Center" AlignmentY="Center">
+                        <ImageBrush ImageSource="res\12040721761543238917-128.png" AlignmentX="Center" AlignmentY="Center">
                             <ImageBrush.Transform>
                                 <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
                             </ImageBrush.Transform>
                         </ImageBrush>
                     </Button.Background>
                 </Button>
-                <Button Grid.Column="2" BorderBrush="White">
+                <Button x:Name="SyncButton" Click="SyncButton_OnClick" Grid.Column="2" BorderBrush="White">
                     <Button.Background>
-                        <ImageBrush ImageSource="18635412531543238915-128.png" AlignmentX="Center" AlignmentY="Center">
+                        <ImageBrush ImageSource="res\18635412531543238915-128.png" AlignmentX="Center" AlignmentY="Center">
                             <ImageBrush.Transform>
                                 <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
                             </ImageBrush.Transform>
@@ -46,9 +45,9 @@
                     </Button.Background>
                 </Button>
             </Grid>
-            <TreeView Grid.Row="1">Notes</TreeView>
+            <TreeView x:Name="NotesTree" ScrollViewer.HorizontalScrollBarVisibility="Auto" SelectedItemChanged="NotesTree_OnSelectedItemChanged" Width="150" Grid.Row="1">Notes</TreeView>
         </Grid>
-        <Label DockPanel.Dock="Top" Height="30">Title</Label>
-        <RichTextBox></RichTextBox>
+        <Label x:Name="NoteTitle" DockPanel.Dock="Top" Height="50">Title</Label>
+        <RichTextBox x:Name="MainTextBox"></RichTextBox>
     </DockPanel>
 </Window>

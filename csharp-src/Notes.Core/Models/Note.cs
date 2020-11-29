@@ -2,6 +2,7 @@ using System;
 using EnsureThat;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Notes.Core.Interfaces;
 using Notes.Core.JsonHelpers;
 
 namespace Notes.Core.Models
@@ -14,9 +15,13 @@ namespace Notes.Core.Models
             Required = Required.Always)]
         public Guid Id { get; private set; }
         [JsonProperty(
+            PropertyName = "deleted",
+            Required = Required.Always)]
+        public bool Deleted { get; private set; }
+        [JsonProperty(
             PropertyName = "title",
             Required = Required.Always)]
-        public string Title { get; set; }
+        public string Title { get; private set; }
         [JsonProperty(
             PropertyName = "date_created")]
         public DateTimeOffset DateCreated { get; private set; }
@@ -28,30 +33,42 @@ namespace Notes.Core.Models
             PropertyName = "content",
             Required = Required.Always)]
         [JsonConverter(typeof(ContentConverter))]
-        public string Content { get; set; }
+        public string Content { get; private set; }
 
-        public static Note Create(NoteCreateArgs args)
+        public INote MarkAsDeleted()
         {
-            Ensure.That(args).IsNotNull();
-            Ensure.That(args.Id).IsNotDefault();
-            Ensure.That(args.Id).IsNot(Guid.Parse("FFFFFFFF-FFFF-FFFF-FFFF-FFFFFFFFFFFF"));
-            Ensure.That(args.Title).IsNotNull();
+            Deleted = true;
+            return this;
+        }
+
+        public INote UnmarkAsDeleted()
+        {
+            Deleted = false;
+            return this;
+        }
+
+        public static Note Create(
+            Guid id,
+            string title,
+            string content)
+        {
             var date = DateTimeOffset.UtcNow;
             return new Note
             {
-                Id = args.Id,
-                Title = args.Title,
+                Id = id,
+                Title = title,
                 DateCreated = date,
                 DateUpdated = date,
-                Content = args.Content
+                Content = content
             };
         }
 
-        public Note Update(NoteUpdateArgs args)
+        public INote Update(
+            string title,
+            string content)
         {
-            Ensure.That(args).IsNotNull();
-            Title = args.Title ?? Title;
-            Content = args.Content ?? Content;
+            Title = title ?? Title;
+            Content = content ?? Content;
             DateUpdated = DateTimeOffset.UtcNow;
             return this;
         }
@@ -59,6 +76,16 @@ namespace Notes.Core.Models
         private Note()
         {
             
+        }
+
+        public override string ToString()
+        {
+            return $"{nameof(Id)}: {Id}\r\n" +
+                   $" {nameof(Deleted)}: {Deleted}\r\n" +
+                   $" {nameof(Title)}: {Title}\r\n" +
+                   $" {nameof(DateCreated)}: {DateCreated}\r\n" +
+                   $" {nameof(DateUpdated)}: {DateUpdated}\r\n" +
+                   $" {nameof(Content)}: {Content}\r\n\r\n";
         }
     }
 }

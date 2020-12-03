@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="SyncNote" Height="450" Width="800">
     <DockPanel LastChildFill="True">
         <Grid DockPanel.Dock="Left">
             <Grid.RowDefinitions>
@@ -30,7 +30,7 @@
                     <Button.Background>
                         <ImageBrush ImageSource="res\12040721761543238917-128.png" AlignmentX="Center" AlignmentY="Center">
                             <ImageBrush.Transform>
-                                <ScaleTransform ScaleX="0.9" ScaleY="0.9"/>
+                                <ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
                             </ImageBrush.Transform>
                         </ImageBrush>
                     </Button.Background>
@@ -45,7 +45,9 @@
                     </Button.Background>
                 </Button>
             </Grid>
-            <TreeView x:Name="NotesTree" ScrollViewer.HorizontalScrollBarVisibility="Auto" SelectedItemChanged="NotesTree_OnSelectedItemChanged" Width="150" Grid.Row="1">Notes</TreeView>
+            <TreeView x:Name="NotesTree" ScrollViewer.HorizontalScrollBarVisibility="Auto" SelectedItemChanged="NotesTree_OnSelectedItemChanged" Width="150" Grid.Row="1">
+                Notes
+            </TreeView>
         </Grid>
         <Label x:Name="NoteTitle" DockPanel.Dock="Top" Height="50">Title</Label>
         <RichTextBox x:Name="MainTextBox"></RichTextBox>

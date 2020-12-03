@@ -4,8 +4,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Core", "Notes.Core\No
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notes.Desktop", "Notes.Desktop\Notes.Desktop.csproj", "{787B85CC-0BFE-4BB3-9452-60FF2EBFA189}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes.Test", "Notes.Test", "{1B0C1B8E-D224-4AB6-B2C6-BBB80BBAA05F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

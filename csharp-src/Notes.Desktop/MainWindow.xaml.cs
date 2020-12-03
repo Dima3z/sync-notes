@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using Notes.Core;
+using Notes.Core.Interfaces;
 using Notes.Core.Models;
 using Notes.Core.Persistence;
 using Notes.Desktop.Models;
+using Notes.Desktop.UI;
 
 namespace Notes.Desktop
 {
@@ -13,16 +17,39 @@ namespace Notes.Desktop
     /// </summary>
     public partial class MainWindow
     {
-        private INotesRepository _repository;
+        public static MainWindow GetInstance { get; private set; }
+        public INotesRepository NotesRepository;
         private readonly PersistenceManager _persistenceManager;
         public MainWindow()
         {
             Application.Current.Exit += Exit_Handler;
-            InitializeComponent();
             _persistenceManager = new PersistenceManager("C:/data/");
+            InitializeComponent();
             LoadData();
+            SetActiveNote(null);
+            GetInstance = this;
         }
 
+        public void SetActiveNote(INote note)
+        {
+            if (note == null)
+            {
+                NoteTitle.Content = string.Empty;
+                MainTextBox.Document.Blocks.Clear();
+                return;
+            }
+            NoteTitle.Content = note.Title;
+            if (note.Content != null && note.Content.Any())
+            {
+                MainTextBox.LoadFromString(note.Content);
+            }
+            else
+            {
+                MainTextBox.Document.Blocks.Clear();
+            }
+            MainTextBox.Focus();
+        }
+        
         private void Exit_Handler(object sender, ExitEventArgs e)
         {
             SaveData();
@@ -40,64 +67,50 @@ namespace Notes.Desktop
 
         private void AddButton_OnClick(object sender, RoutedEventArgs e)
         {
-            var id = _repository.AddNote(new NoteCreateArgs
+            var dialog = new CreateNoteDialog();
+            if (dialog.ShowDialog() == true)
             {
-                Content = null,
-                Title = $"Title #{new Random().Next()}"
-            });
-            var note = _repository.GetById(id);
-            NotesTree.Items.Add(new NoteTreeItem
-            {
-                Header = note.Title,
-                NoteId = id
-            });
+                var id = NotesRepository.AddNote(dialog.Result());
+                var item = new NoteTreeItem(this, id);
+                NotesTree.Items.Add(item);
+                item.IsSelected = true;
+            }
         }
 
         private void NotesTree_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (e.OldValue is NoteTreeItem oldItem)
             {
-                _repository.UpdateNote(new NoteUpdateArgs
+                NotesRepository.UpdateNote(new NoteUpdateArgs
                 {
                     Id = oldItem.NoteId,
                     Title = null,
                     Content = MainTextBox.SaveToString()
                 });
             }
-            
-            MainTextBox.Document.Blocks.Clear();
-
             if (!(e.NewValue is NoteTreeItem obj))
             {
                 return;
             }
-            
-            var note = _repository.GetById(obj.NoteId);
-            NoteTitle.Content = note.Title;
-            if (note.Content != null && note.Content.Any())
-            {
-                MainTextBox.LoadFromString(note.Content);
-            }
+            SetActiveNote(NotesRepository.GetById(obj.NoteId));
         }
 
         private void SaveData()
         {
-            _persistenceManager.SaveNotes(_repository.GetAll().Concat(_repository.GetAllDeleted()));
+            _persistenceManager.SaveNotes(NotesRepository.GetAll().Concat(NotesRepository.GetAllDeleted()));
         }
+        
         private void LoadData()
         {
             var notes = _persistenceManager.LoadNotes().ToArray();
-            _repository = new LocalNotesRepository(
+            NotesRepository = new LocalNotesRepository(
                 notes.Where(n => !n.Deleted).ToList(),
                 notes.Where(n => n.Deleted).ToList());
+
             
-            foreach (var loadedNote in _repository.GetAll())
+            foreach (var loadedNote in NotesRepository.GetAll())
             {
-                NotesTree.Items.Add(new NoteTreeItem
-                {
-                    Header = loadedNote.Title,
-                    NoteId = loadedNote.Id
-                });
+                NotesTree.Items.Add(new NoteTreeItem(this, loadedNote.Id));
             }
         }
     }

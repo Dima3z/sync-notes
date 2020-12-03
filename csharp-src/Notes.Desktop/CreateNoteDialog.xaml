@@ -1,0 +1,17 @@
+<Window x:Class="Notes.Desktop.UI.CreateNoteDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Notes.Desktop.UI"
+        ResizeMode="NoResize"
+        mc:Ignorable="d"
+        Title="Enter note title" Height="150" Width="300">
+    <Border Margin="10">
+        <StackPanel Margin="5">
+            <Label>Title:</Label>
+            <TextBox KeyDown="OnKeyDownHandler" Margin="5" x:Name="TitleTextBox"></TextBox>
+            <Button Margin="5" Width="80" Click="ButtonBase_OnClick">Ok</Button>
+        </StackPanel>
+    </Border>
+</Window>

@@ -6,6 +6,12 @@ namespace Notes.Desktop.Models
 {
     public class NoteTreeItem : TreeViewItem
     {
-        public Guid NoteId { get; set; }
+        public readonly Guid NoteId;
+        public NoteTreeItem(MainWindow mainWindow, Guid noteId)
+        {
+            NoteId = noteId;
+            Header = mainWindow.NotesRepository.GetById(noteId).Title;
+            ContextMenu = new NoteContextMenu(noteId);
+        }
     }
 }

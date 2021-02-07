@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using Notes.Core.Interfaces;
 using Notes.Core.Models;
-using Notes.Desktop.UI;
 
 namespace Notes.Desktop.Models
 {

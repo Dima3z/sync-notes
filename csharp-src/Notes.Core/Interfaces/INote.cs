@@ -9,11 +9,11 @@ namespace Notes.Core.Interfaces
         public string Title { get; }
         public DateTimeOffset DateCreated { get; }
         public DateTimeOffset DateUpdated { get; }
-        public string Content { get; }
+        public Guid? ContentId { get; }
 
         public INote Update(
             string title,
-            string content);
+            Guid? contentId);
         
         public INote MarkAsDeleted();
         public INote UnmarkAsDeleted();

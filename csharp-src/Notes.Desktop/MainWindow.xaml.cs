@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,7 +9,6 @@ using Notes.Core.Interfaces;
 using Notes.Core.Models;
 using Notes.Core.Persistence;
 using Notes.Desktop.Models;
-using Notes.Desktop.UI;
 
 namespace Notes.Desktop
 {
@@ -39,15 +39,34 @@ namespace Notes.Desktop
                 return;
             }
             NoteTitle.Content = note.Title;
-            if (note.Content != null && note.Content.Any())
+            if (note.ContentId.HasValue)
             {
-                MainTextBox.LoadFromString(note.Content);
+                LoadContent(note.ContentId.Value, note.Title);
             }
             else
             {
                 MainTextBox.Document.Blocks.Clear();
             }
             MainTextBox.Focus();
+        }
+        
+        public void CloseActiveNote(Guid id)
+        {
+            var note = NotesRepository.GetById(id);
+            if (!note.ContentId.HasValue)
+            {
+                var contentId = Guid.NewGuid();
+                NotesRepository.UpdateNote(new NoteUpdateArgs
+                {
+                    Id = id,
+                    ContentId = contentId
+                });
+                SaveContent(contentId, NoteTitle.Content as string);
+            }
+            else
+            {
+                SaveContent(note.ContentId.Value, NoteTitle.Content as string);
+            }
         }
         
         private void Exit_Handler(object sender, ExitEventArgs e)
@@ -70,23 +89,21 @@ namespace Notes.Desktop
             var dialog = new CreateNoteDialog();
             if (dialog.ShowDialog() == true)
             {
-                var id = NotesRepository.AddNote(dialog.Result());
+                var createArgs = dialog.Result();
+                var id = NotesRepository.AddNote(createArgs);
                 var item = new NoteTreeItem(this, id);
                 NotesTree.Items.Add(item);
                 item.IsSelected = true;
             }
         }
 
-        private void NotesTree_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        private void NotesTree_OnSelectedItemChanged(
+            object sender,
+            RoutedPropertyChangedEventArgs<object> e)
         {
             if (e.OldValue is NoteTreeItem oldItem)
             {
-                NotesRepository.UpdateNote(new NoteUpdateArgs
-                {
-                    Id = oldItem.NoteId,
-                    Title = null,
-                    Content = MainTextBox.SaveToString()
-                });
+                CloseActiveNote(oldItem.NoteId);
             }
             if (!(e.NewValue is NoteTreeItem obj))
             {
@@ -102,16 +119,32 @@ namespace Notes.Desktop
         
         private void LoadData()
         {
-            var notes = _persistenceManager.LoadNotes().ToArray();
+            var notes = _persistenceManager.LoadAllNotes();
             NotesRepository = new LocalNotesRepository(
                 notes.Where(n => !n.Deleted).ToList(),
                 notes.Where(n => n.Deleted).ToList());
 
-            
             foreach (var loadedNote in NotesRepository.GetAll())
             {
                 NotesTree.Items.Add(new NoteTreeItem(this, loadedNote.Id));
             }
+        }
+
+        private void SaveContent(Guid contentId, string title)
+        {                
+            var t = new TextRange(MainTextBox.Document.ContentStart, MainTextBox.Document.ContentEnd);
+            var writeStream = _persistenceManager.GetContentWriteStream(contentId, title);
+            t.Save(writeStream, DataFormats.Rtf);
+            writeStream.Close();
+        }
+
+        private void LoadContent(Guid contentId, string title)
+        {
+            var data = _persistenceManager.GetContentReadStream(contentId, title);
+            MainTextBox.SelectAll();
+            MainTextBox.Selection.Load(data, DataFormats.Rtf);
+            MainTextBox.Selection.Select(MainTextBox.Document.ContentStart,MainTextBox.Document.ContentStart);
+            data.Close();
         }
     }
 }

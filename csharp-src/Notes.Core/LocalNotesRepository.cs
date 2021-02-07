@@ -30,7 +30,7 @@ namespace Notes.Core
             var note = Note.Create(
                 Guid.NewGuid(), 
                 args.Title ?? string.Empty,
-                args.Content ?? string.Empty);
+                args.ContentId);
             _notes.Add(note);
             return note.Id;
         }
@@ -41,7 +41,7 @@ namespace Notes.Core
             var found = GetById(args.Id);
             found.Update(
                 args.Title,
-                args.Content);
+                args.ContentId);
         }
 
         public void MarkAsDeleted(Guid id)

@@ -4,7 +4,7 @@ using System.Windows.Input;
 using Notes.Core.Interfaces;
 using Notes.Core.Models;
 
-namespace Notes.Desktop.UI
+namespace Notes.Desktop
 {
     public partial class CreateNoteDialog : Window
     {
@@ -20,7 +20,7 @@ namespace Notes.Desktop.UI
         {
             return new NoteCreateArgs
             {
-                Title = TitleTextBox.Text
+                Title = TitleTextBox.Text,
             };
         }
 

@@ -23,17 +23,15 @@ namespace Notes.Core.Models
             Required = Required.Always)]
         public string Title { get; private set; }
         [JsonProperty(
-            PropertyName = "date_created")]
+            PropertyName = "date_created",
+            Required = Required.Always)]
         public DateTimeOffset DateCreated { get; private set; }
         [JsonProperty(
-            PropertyName = "date_updated",
-            Required = Required.Always)]
+            PropertyName = "date_updated")]
         public DateTimeOffset DateUpdated { get; private set; }
         [JsonProperty(
-            PropertyName = "content",
-            Required = Required.Always)]
-        [JsonConverter(typeof(ContentConverter))]
-        public string Content { get; private set; }
+            PropertyName = "content_id")]
+        public Guid? ContentId { get; private set; }
 
         public INote MarkAsDeleted()
         {
@@ -50,7 +48,7 @@ namespace Notes.Core.Models
         public static Note Create(
             Guid id,
             string title,
-            string content)
+            Guid? contentId)
         {
             var date = DateTimeOffset.UtcNow;
             return new Note
@@ -59,16 +57,16 @@ namespace Notes.Core.Models
                 Title = title,
                 DateCreated = date,
                 DateUpdated = date,
-                Content = content
+                ContentId = contentId
             };
         }
 
         public INote Update(
             string title,
-            string content)
+            Guid? contentId)
         {
             Title = title ?? Title;
-            Content = content ?? Content;
+            ContentId = contentId ?? ContentId;
             DateUpdated = DateTimeOffset.UtcNow;
             return this;
         }
@@ -85,7 +83,7 @@ namespace Notes.Core.Models
                    $" {nameof(Title)}: {Title}\r\n" +
                    $" {nameof(DateCreated)}: {DateCreated}\r\n" +
                    $" {nameof(DateUpdated)}: {DateUpdated}\r\n" +
-                   $" {nameof(Content)}: {Content}\r\n\r\n";
+                   $" {nameof(ContentId)}: {ContentId}\r\n\r\n";
         }
     }
 }
